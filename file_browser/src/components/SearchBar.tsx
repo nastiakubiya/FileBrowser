@@ -8,8 +8,8 @@ export default function SearchBar() {
     fileSystemStore.setSearchText(text.toLowerCase())
   }
   return (
-    <div className={s["searchInput"]}>
-      <input type="text" placeholder="Search items here..." onChange={handleChangeText} className="inputDialog" />
+    <div className={s["search-input"]}>
+      <input type="text" placeholder="Search items here..." onChange={handleChangeText} className="input-dialog" />
     </div>
   );
 }

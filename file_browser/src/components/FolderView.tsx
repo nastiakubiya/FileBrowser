@@ -1,7 +1,7 @@
 import { SystemItem } from "../classes/SystemItem";
 import { Folder } from "../classes/Folder";
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import fileSystemStore from "../stores/FileSystemStore";
 import { FileView } from "./FileView";
 import { FileClass } from "../classes/File";
@@ -19,22 +19,34 @@ import whiteDownArrow from "../assets/whiteDownArrow.png";
 const FolderView = observer(({ folder }: { folder: Folder }) => {
   const [isFolderOpened, setIsFolderOpened] = useState(false);
 
-  const folderIcon =
-    isFolderOpened && folder.files.size !== 0
-      ? fileSystemStore.selectedId === folder.id
-        ? whiteOpenedIcon
-        : openedIcon
-      : fileSystemStore.selectedId === folder.id
-      ? whiteClosedIcon
-      : closedIcon;
+  const folderIcon = useMemo(() => {
+    if (isFolderOpened && folder.files.size !== 0) {
+      if (fileSystemStore.selectedId === folder.id) {
+        return whiteOpenedIcon;
+      } else return openedIcon;
+    } else {
+      if (fileSystemStore.selectedId === folder.id) {
+        return whiteClosedIcon;
+      } else return closedIcon;
+    }
+  }, [
+    isFolderOpened,
+    folder.files.size,
+    fileSystemStore.selectedId,
+    folder.id,
+  ]);
 
-  const arrowIcon = isFolderOpened
-    ? fileSystemStore.selectedId === folder.id
-      ? whiteDownArrow
-      : downArrow
-    : fileSystemStore.selectedId === folder.id
-    ? whiteLeftArrow
-    : leftArrow;
+  const arrowIcon = useMemo(() => {
+    if (isFolderOpened) {
+      if (fileSystemStore.selectedId === folder.id) {
+        return whiteDownArrow;
+      } else return downArrow;
+    } else {
+      if (fileSystemStore.selectedId === folder.id) {
+        return whiteLeftArrow;
+      } else return leftArrow;
+    }
+  }, [isFolderOpened, fileSystemStore.selectedId, folder.id]);
 
   const handleSelectItem = (item: SystemItem) => {
     fileSystemStore.setSelected(item);
@@ -44,7 +56,7 @@ const FolderView = observer(({ folder }: { folder: Folder }) => {
     <div>
       {folder.name.toLowerCase().includes(fileSystemStore.searchText) ? (
         <div
-          className="fileBrowserItem"
+          className="file-browser-item"
           onClick={() => handleSelectItem(folder)}
           style={{
             backgroundColor:
@@ -55,7 +67,7 @@ const FolderView = observer(({ folder }: { folder: Folder }) => {
           <img className="icon" src={folderIcon} alt="closed" />
           {folder.files.size !== 0 && (
             <button
-              className="iconButton"
+              className="icon-button"
               onClick={(e) => {
                 e.stopPropagation();
                 setIsFolderOpened((prev) => !prev);
@@ -64,7 +76,7 @@ const FolderView = observer(({ folder }: { folder: Folder }) => {
               <img className="icon" src={arrowIcon} alt="arrow" />
             </button>
           )}
-          <span className="systemItemName">{folder.name}</span>
+          <span className="system-item-name">{folder.name}</span>
         </div>
       ) : (
         <></>

@@ -1,12 +1,12 @@
 @import "../styles/variables.scss";
 
-.ActionBar {
+.action-bar {
   background-color: $blue;
   align-content: end;
   margin-bottom: 10px;
 }
 
-.action_bar_button {
+.action-bar-button {
   background-color: transparent;
   color: white;
   width: 100px;

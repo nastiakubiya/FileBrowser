@@ -5,7 +5,7 @@ body {
   font-family: $font;
 }
 
-.App {
+.app {
   text-align: center;
 }
 
@@ -14,7 +14,7 @@ ul {
   margin: 0;
 }
 
-.fileBrowserItem {
+.file-browser-item {
   text-align: left;
   padding: 7px 10px;
   height: 25px;
@@ -22,7 +22,7 @@ ul {
   display: flex;
 }
 
-.systemItemName {
+.system-item-name {
   margin-left: 10px;
   align-content: center;
 }
@@ -32,7 +32,7 @@ ul {
   height: auto;
 }
 
-.iconButton {
+.icon-button {
   border: none;
   width: 28px;
   background-color: transparent;
@@ -49,7 +49,7 @@ ul {
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
 }
 
-.dialogButton {
+.dialog-button {
   color: white;
   background-color: $blue;
   font-family: $font;
@@ -65,18 +65,18 @@ ul {
   }
 }
 
-.dialogButtons {
+.dialog-buttons {
   display: flex;
   justify-content: space-between;
 }
 
-.inputDialogContainer {
+.input-dialog-container {
   display: flex;
   margin: 15px;
   justify-content: space-between;
 }
 
-.inputDialog {
+.input-dialog {
   flex: 1;
   padding: 10px;
   border: 1px solid lightgrey;

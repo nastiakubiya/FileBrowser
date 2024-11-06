@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { SystemItem } from "../classes/SystemItem";
 import { FileClass } from "../classes/File";
 import { Folder } from "../classes/Folder";
@@ -7,12 +7,12 @@ import fileSystemStore from "../stores/FileSystemStore";
 
 const options = ["File", "Folder"];
 
-function AddDialog({
-  setDialog,
+const AddDialog = observer(({
+  onClose
 }: {
-  setDialog: Dispatch<SetStateAction<boolean>>;
-}) {
-  const [selected, setSelected] = useState<any>(0);
+  onClose: (state: boolean) => void;
+}) => {
+  const [selected, setSelected] = useState<number>(0);
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
@@ -21,19 +21,19 @@ function AddDialog({
     (fileSystemStore.selectedItem as Folder).add(item);
   };
 
-  function onChange(i: any) {
+  const onChange = (i: any) => {
     setSelected((prev: any) => (i === prev ? null : i));
     setError("")
   }
 
-  function createNewItem() {
-    let item;
+  const createNewItem = () => {
+    let item: SystemItem;
     /// folder
     if (selected === 1) {
       if (name !== "") {
         item = new Folder(name, fileSystemStore.selectedItem as Folder);
         handleAdd(item);
-        setDialog(false);
+        onClose(false);
       } else setError("You must choose a name for the folder");
     }
     //// file
@@ -45,7 +45,7 @@ function AddDialog({
           content
         );
         handleAdd(item);
-        setDialog(false);
+        onClose(false);
       } else setError("You must choose name for the file");
     }
   }
@@ -64,43 +64,43 @@ function AddDialog({
       ))}
       <br />
       {selected === 1 && (
-        <div className="inputDialogContainer">
+        <div className="input-dialog-container">
           <input
             onChange={(e) => setName(e.target.value)}
             placeholder="Enter the name of the folder"
-            className="inputDialog"
+            className="input-dialog"
           />
         </div>
       )}
       {selected === 0 && (
         <>
-          <div className="inputDialogContainer">
+          <div className="input-dialog-container">
             <input
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter the name of the file"
-              className="inputDialog"
+              className="input-dialog"
             />
           </div>
-          <div className="inputDialogContainer">
+          <div className="input-dialog-container">
             <textarea
               onChange={(e) => setContent(e.target.value)}
               placeholder="Enter the content of the file"
-              className="inputDialog"
+              className="input-dialog"
             />
           </div>
         </>
       )}
       {error}
-      <div className="dialogButtons">
-        <button onClick={createNewItem} className="dialogButton">
+      <div className="dialog-buttons">
+        <button onClick={createNewItem} className="dialog-button">
           Add
         </button>
-        <button onClick={() => setDialog(false)} className="dialogButton">
+        <button onClick={() => onClose(false)} className="dialog-button">
           Cancel
         </button>
       </div>
     </dialog>
   );
-}
+})
 
-export default observer(AddDialog);
+export default AddDialog;

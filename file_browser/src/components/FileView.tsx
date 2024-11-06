@@ -11,7 +11,7 @@ export const FileView = observer(({ file, handleSelectItem }: { file: FileClass,
   return (
     file.name.toLowerCase().includes(fileSystemStore.searchText) ? (
     <div
-      className="fileBrowserItem"
+      className="file-browser-item"
       onClick={() =>
         handleSelectItem(file)
       }
@@ -26,7 +26,7 @@ export const FileView = observer(({ file, handleSelectItem }: { file: FileClass,
         src={fileSystemStore.selectedId === file.id ? whiteFileIcon : fileIcon}
         alt="file"
       />
-      <span className="systemItemName">
+      <span className="system-item-name">
         {file.name}
       </span>
     </div>

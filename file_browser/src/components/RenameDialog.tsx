@@ -1,9 +1,9 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { observer } from "mobx-react-lite";
 import fileSystemStore from "../stores/FileSystemStore";
 
 const RenameDialog = observer(
-  ({ setDialog }: { setDialog: Dispatch<SetStateAction<boolean>> }) => {
+  ({ onClose }: { onClose: (state: boolean) => void }) => {
     const [rename, setRename] = useState("");
     const [error, setError] = useState("");
 
@@ -12,7 +12,7 @@ const RenameDialog = observer(
         setError("You must enter a name");
       } else {
         fileSystemStore.selectedItem.setName(rename);
-        setDialog(false);
+        onClose(false);
         setRename("");
       }
     };
@@ -24,7 +24,7 @@ const RenameDialog = observer(
           This is the current name of the item:{" "}
           {fileSystemStore.selectedItem.name}
         </p>
-        <div className="inputDialogContainer">
+        <div className="input-dialog-container">
           <input
             placeholder="Enter new name here"
             onChange={(e) => {
@@ -33,15 +33,15 @@ const RenameDialog = observer(
                 setError("");
               }
             }}
-            className="inputDialog"
+            className="input-dialog"
           />
         </div>
         {error}
-        <div className="dialogButtons">
-          <button onClick={handleRename} className="dialogButton">
+        <div className="dialog-buttons">
+          <button onClick={handleRename} className="dialog-button">
             Rename
           </button>
-          <button onClick={() => setDialog(false)} className="dialogButton">
+          <button onClick={() => onClose(false)} className="dialog-button">
             Cancel
           </button>
         </div>

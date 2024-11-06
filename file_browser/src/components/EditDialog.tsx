@@ -1,18 +1,14 @@
 import { observer } from "mobx-react-lite";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import fileSystemStore from "../stores/FileSystemStore";
 import { FileClass } from "../classes/File";
 
-function EditDialog({
-  setDialog,
-}: {
-  setDialog: Dispatch<SetStateAction<boolean>>;
-}) {
+const EditDialog = observer(({onClose}: {onClose: (state: boolean) => void}) => {
   const [editContent, setEditContent] = useState("");
 
   const handleEditContent = () => {
     (fileSystemStore.selectedItem as FileClass).setContent(editContent);
-    setDialog(false);
+    onClose(false);
     setEditContent("");
   };
   return (
@@ -20,23 +16,23 @@ function EditDialog({
       <h2>Edit File</h2>
       <h4>This is the current content of the file:</h4>
       <p>{(fileSystemStore.selectedItem as FileClass).content}</p>
-      <div className="inputDialogContainer">
+      <div className="input-dialog-container">
         <input
           onChange={(e) => setEditContent(e.target.value)}
           placeholder="Enter here the new content"
-          className="inputDialog"
+          className="input-dialog"
         />
       </div>
-      <div className="dialogButtons">
-        <button onClick={handleEditContent} className="dialogButton">
+      <div className="dialog-buttons">
+        <button onClick={handleEditContent} className="dialog-button">
           Edit
         </button>
-        <button onClick={() => setDialog(false)} className="dialogButton">
+        <button onClick={() => onClose(false)} className="dialog-button">
           Close
         </button>
       </div>
     </dialog>
   );
-}
+})
 
-export default observer(EditDialog);
+export default EditDialog

@@ -7,7 +7,7 @@ import s from './FileBrowser.module.scss'
 function FileBrowser() {
 
   return (
-    <div className={s["file_browser"]}>                                               
+    <div className={s["file-browser"]}>                                               
       <ActionBar  />
       <FolderView folder={fileSystemStore.root}/>
     </div>
