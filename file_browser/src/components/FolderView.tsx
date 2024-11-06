@@ -55,7 +55,7 @@ const FolderView = observer(({ folder }: { folder: Folder }) => {
 
   return (
     <div>
-      {folder.name.toLowerCase().includes(fileSystemStore.searchText) ? (
+      {folder.name.toLowerCase().includes(fileSystemStore.searchText) && (
         <div
           className={fileSystemStore.selectedId === folder.id ? s["selected"] : "file-browser-item"}
           onClick={() => handleSelectItem(folder)}
@@ -74,8 +74,6 @@ const FolderView = observer(({ folder }: { folder: Folder }) => {
           )}
           <span className="system-item-name">{folder.name}</span>
         </div>
-      ) : (
-        <></>
       )}
       {isFolderOpened && (
         <ul>
