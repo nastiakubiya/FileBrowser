@@ -12,7 +12,13 @@ const AddDialog = observer(({
 }: {
   onClose: (state: boolean) => void;
 }) => {
-  const [selected, setSelected] = useState<number>(0);
+
+  enum Selected {
+    FileOption = 0,
+    FolderOption = 1
+  }
+
+  const [selected, setSelected] = useState<number>(Selected.FileOption);
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
@@ -29,7 +35,7 @@ const AddDialog = observer(({
   const createNewItem = () => {
     let item: SystemItem;
     /// folder
-    if (selected === 1) {
+    if (selected === Selected.FolderOption) {
       if (name !== "") {
         item = new Folder(name, fileSystemStore.selectedItem as Folder);
         handleAdd(item);
@@ -63,7 +69,7 @@ const AddDialog = observer(({
         </label>
       ))}
       <br />
-      {selected === 1 && (
+      {selected === Selected.FolderOption && (
         <div className="input-dialog-container">
           <input
             onChange={(e) => setName(e.target.value)}
@@ -72,7 +78,7 @@ const AddDialog = observer(({
           />
         </div>
       )}
-      {selected === 0 && (
+      {selected === Selected.FileOption && (
         <>
           <div className="input-dialog-container">
             <input
