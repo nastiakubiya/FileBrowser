@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import fileSystemStore from "../stores/FileSystemStore";
 import { FileView } from "./FileView";
 import { FileClass } from "../classes/File";
+import s from "./FolderView.module.scss"
 
 // icons
 import openedIcon from "../assets/openedFolder.png";
@@ -56,13 +57,8 @@ const FolderView = observer(({ folder }: { folder: Folder }) => {
     <div>
       {folder.name.toLowerCase().includes(fileSystemStore.searchText) ? (
         <div
-          className="file-browser-item"
+          className={fileSystemStore.selectedId === folder.id ? s["selected"] : "file-browser-item"}
           onClick={() => handleSelectItem(folder)}
-          style={{
-            backgroundColor:
-              fileSystemStore.selectedId === folder.id ? "#2f84ea" : "#e6e8eb",
-            color: fileSystemStore.selectedId === folder.id ? "white" : "black",
-          }}
         >
           <img className="icon" src={folderIcon} alt="closed" />
           {folder.files.size !== 0 && (

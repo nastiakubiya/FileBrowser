@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import fileSystemStore from "../stores/FileSystemStore";
 import { FileClass } from "../classes/File";
 import { SystemItem } from "../classes/SystemItem";
+import s from './FileView.module.scss'
 
 /// icons
 import fileIcon from "../assets/file.png";
@@ -11,15 +12,10 @@ export const FileView = observer(({ file, handleSelectItem }: { file: FileClass,
   return (
     file.name.toLowerCase().includes(fileSystemStore.searchText) ? (
     <div
-      className="file-browser-item"
+      className= {fileSystemStore.selectedId === file.id ? s["selected"] : "file-browser-item"}
       onClick={() =>
         handleSelectItem(file)
       }
-      style={{
-        backgroundColor:
-          fileSystemStore.selectedId === file.id ? "#2f84ea" : "#e6e8eb",
-        color: fileSystemStore.selectedId === file.id ? "white" : "black",
-      }}
     >
       <img
         className="icon"
