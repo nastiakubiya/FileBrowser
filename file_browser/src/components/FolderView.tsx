@@ -54,32 +54,34 @@ const FolderView = observer(({ folder }: { folder: Folder }) => {
   };
 
   return (
-    <div>
-      <div
-        className={
-          fileSystemStore.selectedId === folder.id
-            ? s["selected"]
-            : "file-browser-item"
-        }
-        onClick={() => handleSelectItem(folder)}
-      >
-        <img className="icon" src={folderIcon} alt="closed" />
-        {folder.files.size !== 0 && (
-          <button
-            className="icon-button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsFolderOpened((prev) => !prev);
-            }}
-          >
-            <img className="icon" src={arrowIcon} alt="arrow" />
-          </button>
-        )}
-        <span className="system-item-name">{folder.name}</span>
-      </div>
+    <>
+      {folder.name.toLowerCase().includes(fileSystemStore.searchText) && (
+        <div
+          className={
+            fileSystemStore.selectedId === folder.id
+              ? s["selected"]
+              : "file-browser-item"
+          }
+          onClick={() => handleSelectItem(folder)}
+        >
+          <img className="icon" src={folderIcon} alt="closed" />
+          {folder.files.size !== 0 && (
+            <button
+              className="icon-button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsFolderOpened((prev) => !prev);
+              }}
+            >
+              <img className="icon" src={arrowIcon} alt="arrow" />
+            </button>
+          )}
+          <span className="system-item-name">{folder.name}</span>
+        </div>
+      )}
       {isFolderOpened && (
         <ul>
-           {[...folder.getFilteredMap?.keys()].map((id) => (
+          {[...folder.getFilteredMap?.keys()].map((id) => (
             <li key={id}>
               {folder.files.get(id) instanceof Folder ? (
                 <FolderView folder={folder.files.get(id) as Folder} />
@@ -93,7 +95,7 @@ const FolderView = observer(({ folder }: { folder: Folder }) => {
           ))}
         </ul>
       )}
-    </div>
+    </>
   );
 });
 
