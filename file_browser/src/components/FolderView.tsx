@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import fileSystemStore from "../stores/FileSystemStore";
 import { FileView } from "./FileView";
 import { FileClass } from "../classes/File";
-import s from "./FolderView.module.scss"
+import s from "./FolderView.module.scss";
 
 // icons
 import openedIcon from "../assets/openedFolder.png";
@@ -55,29 +55,31 @@ const FolderView = observer(({ folder }: { folder: Folder }) => {
 
   return (
     <div>
-      {folder.name.toLowerCase().includes(fileSystemStore.searchText) && (
-        <div
-          className={fileSystemStore.selectedId === folder.id ? s["selected"] : "file-browser-item"}
-          onClick={() => handleSelectItem(folder)}
-        >
-          <img className="icon" src={folderIcon} alt="closed" />
-          {folder.files.size !== 0 && (
-            <button
-              className="icon-button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsFolderOpened((prev) => !prev);
-              }}
-            >
-              <img className="icon" src={arrowIcon} alt="arrow" />
-            </button>
-          )}
-          <span className="system-item-name">{folder.name}</span>
-        </div>
-      )}
+      <div
+        className={
+          fileSystemStore.selectedId === folder.id
+            ? s["selected"]
+            : "file-browser-item"
+        }
+        onClick={() => handleSelectItem(folder)}
+      >
+        <img className="icon" src={folderIcon} alt="closed" />
+        {folder.files.size !== 0 && (
+          <button
+            className="icon-button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsFolderOpened((prev) => !prev);
+            }}
+          >
+            <img className="icon" src={arrowIcon} alt="arrow" />
+          </button>
+        )}
+        <span className="system-item-name">{folder.name}</span>
+      </div>
       {isFolderOpened && (
         <ul>
-          {[...folder.files.keys()].map((id) => (
+           {[...folder.getFilteredMap?.keys()].map((id) => (
             <li key={id}>
               {folder.files.get(id) instanceof Folder ? (
                 <FolderView folder={folder.files.get(id) as Folder} />

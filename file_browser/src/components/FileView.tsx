@@ -16,9 +16,6 @@ export const FileView = observer(
     file: FileClass;
     handleSelectItem: (item: SystemItem) => void;
   }) => {
-    if (!file.name.toLowerCase().includes(fileSystemStore.searchText)) {
-      return null;
-    }
     return (
       <div
         className={
