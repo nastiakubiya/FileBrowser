@@ -4,16 +4,16 @@ import fileSystemStore from "../stores/FileSystemStore";
 
 const RenameDialog = observer(
   ({ onClose }: { onClose: (state: boolean) => void }) => {
-    const [rename, setRename] = useState("");
+    const [renameString, setRenameString] = useState("");
     const [error, setError] = useState("");
 
-    const handleRename = () => {
-      if (rename === "") {
+    const rename = () => {
+      if (renameString === "") {
         setError("You must enter a name");
       } else {
-        fileSystemStore.selectedItem.setName(rename);
+        fileSystemStore.selectedItem.setName(renameString);
         onClose(false);
-        setRename("");
+        setRenameString("");
       }
     };
 
@@ -21,14 +21,15 @@ const RenameDialog = observer(
       <dialog className="dialog" open>
         <h2>Rename Item</h2>
         <p>
-          This is the current name of the item:{" "}
+          This is the current name of the item:
+          <br/>
           {fileSystemStore.selectedItem.name}
         </p>
         <div className="input-dialog-container">
           <input
             placeholder="Enter new name here"
             onChange={(e) => {
-              setRename(e.target.value);
+              setRenameString(e.target.value);
               if (error && e.target.value.trim() !== "") {
                 setError("");
               }
@@ -38,8 +39,8 @@ const RenameDialog = observer(
         </div>
         {error}
         <div className="dialog-buttons">
-          <button onClick={handleRename} className="dialog-button">
-            Rename
+          <button onClick={rename} className="dialog-button">
+            Save
           </button>
           <button onClick={() => onClose(false)} className="dialog-button">
             Cancel

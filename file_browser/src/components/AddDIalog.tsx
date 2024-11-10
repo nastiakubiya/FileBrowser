@@ -1,112 +1,111 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { SystemItem } from "../classes/SystemItem";
 import { FileClass } from "../classes/File";
 import { Folder } from "../classes/Folder";
 import { observer } from "mobx-react-lite";
 import fileSystemStore from "../stores/FileSystemStore";
 
-const options = ["File", "Folder"];
-
-const AddDialog = observer(({
-  onClose
-}: {
-  onClose: (state: boolean) => void;
-}) => {
-
-  enum Selected {
-    FileOption = 0,
-    FolderOption = 1
-  }
-
-  const [selected, setSelected] = useState<number>(Selected.FileOption);
-  const [name, setName] = useState("");
-  const [content, setContent] = useState("");
-  const [error, setError] = useState("");
-
-  const handleAdd = (item: SystemItem) => {
-    (fileSystemStore.selectedItem as Folder).add(item);
-  };
-
-  const onChange = (i: any) => {
-    setSelected((prev: any) => (i === prev ? null : i));
-    setError("")
-  }
-
-  const createNewItem = () => {
-    let item: SystemItem;
-    /// folder
-    if (selected === Selected.FolderOption) {
-      if (name !== "") {
-        item = new Folder(name, fileSystemStore.selectedItem as Folder);
-        handleAdd(item);
-        onClose(false);
-      } else setError("You must choose a name for the folder");
+const AddDialog = observer(
+  ({ onClose }: { onClose: (state: boolean) => void }) => {
+    enum Options {
+      Folder,
+      File,
     }
-    //// file
-    else {
-      if (name !== "") {
-        item = new FileClass(
-          name,
-          fileSystemStore.selectedItem as Folder,
-          content
-        );
-        handleAdd(item);
-        onClose(false);
-      } else setError("You must choose name for the file");
-    }
-  }
 
-  return (
-    <dialog className="dialog" open>
-      {options.map((option, index) => (
-        <label key={index}>
-          {option}
-          <input
-            type="checkbox"
-            checked={index === selected}
-            onChange={() => onChange(index)}
-          />
-        </label>
-      ))}
-      <br />
-      {selected === Selected.FolderOption && (
-        <div className="input-dialog-container">
-          <input
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter the name of the folder"
-            className="input-dialog"
-          />
-        </div>
-      )}
-      {selected === Selected.FileOption && (
-        <>
+    const [selected, setSelected] = useState("Folder");
+    const [name, setName] = useState("");
+    const [content, setContent] = useState("");
+    const [error, setError] = useState("");
+
+    const addToFolder = (item: SystemItem) => {
+      (fileSystemStore.selectedItem as Folder).add(item);
+    };
+
+    const handleChangeOption = (e: ChangeEvent<HTMLInputElement>) => {
+      setSelected(e.target.value);
+      setError("");
+    };
+
+    const createNewItem = () => {
+      let item: SystemItem;
+      /// folder
+      if (selected === Options[0]) {
+        if (name !== "") {
+          item = new Folder(name, fileSystemStore.selectedItem as Folder);
+          addToFolder(item);
+          onClose(false);
+        } else setError("You must choose a name for the folder");
+      }
+      //// file
+      else {
+        if (name !== "") {
+          item = new FileClass(
+            name,
+            fileSystemStore.selectedItem as Folder,
+            content
+          );
+          addToFolder(item);
+          onClose(false);
+        } else setError("You must choose name for the file");
+      }
+    };
+
+    return (
+      <dialog className="dialog" open>
+        {Object.values(Options)
+          .filter((value) => typeof value === "string")
+          .map((opt) => (
+            <label key={opt}>
+              {opt}
+              <input
+                value={opt}
+                type="radio"
+                name="option"
+                onChange={(e) => handleChangeOption(e)}
+                checked={selected === opt}
+              />
+            </label>
+          ))}
+        <br />
+        {selected === Options[0] && (
           <div className="input-dialog-container">
             <input
               onChange={(e) => setName(e.target.value)}
-              placeholder="Enter the name of the file"
+              placeholder="Enter the name of the folder"
               className="input-dialog"
             />
           </div>
-          <div className="input-dialog-container">
-            <textarea
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="Enter the content of the file"
-              className="input-dialog"
-            />
-          </div>
-        </>
-      )}
-      {error}
-      <div className="dialog-buttons">
-        <button onClick={createNewItem} className="dialog-button">
-          Add
-        </button>
-        <button onClick={() => onClose(false)} className="dialog-button">
-          Cancel
-        </button>
-      </div>
-    </dialog>
-  );
-})
+        )}
+        {selected === Options[1] && (
+          <>
+            <div className="input-dialog-container">
+              <input
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter the name of the file"
+                className="input-dialog"
+              />
+            </div>
+            <div className="input-dialog-container">
+              <textarea
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Enter the content of the file"
+                className="input-dialog"
+              />
+            </div>
+          </>
+        )}
+        {error}
+        <div className="dialog-buttons">
+          <button onClick={createNewItem} className="dialog-button">
+            Save
+          </button>
+          <button onClick={() => onClose(false)} className="dialog-button">
+            Cancel
+          </button>
+        </div>
+      </dialog>
+    );
+  }
+);
 
 export default AddDialog;

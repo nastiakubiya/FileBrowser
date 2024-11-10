@@ -1,7 +1,7 @@
 import { SystemItem } from "../classes/SystemItem";
 import { Folder } from "../classes/Folder";
 import { observer } from "mobx-react-lite";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import fileSystemStore from "../stores/FileSystemStore";
 import { FileView } from "./FileView";
 import { FileClass } from "../classes/File";
@@ -18,10 +18,8 @@ import downArrow from "../assets/down-arrow.png";
 import whiteDownArrow from "../assets/whiteDownArrow.png";
 
 const FolderView = observer(({ folder }: { folder: Folder }) => {
-  const [isFolderOpened, setIsFolderOpened] = useState(false);
-
   const folderIcon = useMemo(() => {
-    if (isFolderOpened && folder.files.size !== 0) {
+    if (folder.isOpened && folder.files.size !== 0) {
       if (fileSystemStore.selectedId === folder.id) {
         return whiteOpenedIcon;
       } else return openedIcon;
@@ -31,14 +29,14 @@ const FolderView = observer(({ folder }: { folder: Folder }) => {
       } else return closedIcon;
     }
   }, [
-    isFolderOpened,
+    folder.isOpened,
     folder.files.size,
     fileSystemStore.selectedId,
     folder.id,
   ]);
 
   const arrowIcon = useMemo(() => {
-    if (isFolderOpened) {
+    if (folder.isOpened) {
       if (fileSystemStore.selectedId === folder.id) {
         return whiteDownArrow;
       } else return downArrow;
@@ -47,7 +45,7 @@ const FolderView = observer(({ folder }: { folder: Folder }) => {
         return whiteLeftArrow;
       } else return leftArrow;
     }
-  }, [isFolderOpened, fileSystemStore.selectedId, folder.id]);
+  }, [folder.isOpened, fileSystemStore.selectedId, folder.id]);
 
   const handleSelectItem = (item: SystemItem) => {
     fileSystemStore.setSelected(item);
@@ -55,44 +53,51 @@ const FolderView = observer(({ folder }: { folder: Folder }) => {
 
   return (
     <>
-      {folder.name.toLowerCase().includes(fileSystemStore.searchText) && (
-        <div
-          className={
-            fileSystemStore.selectedId === folder.id
-              ? s["selected"]
-              : "file-browser-item"
-          }
-          onClick={() => handleSelectItem(folder)}
-        >
-          <img className="icon" src={folderIcon} alt="closed" />
-          {folder.files.size !== 0 && (
-            <button
-              className="icon-button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsFolderOpened((prev) => !prev);
-              }}
-            >
-              <img className="icon" src={arrowIcon} alt="arrow" />
-            </button>
-          )}
-          <span className="system-item-name">{folder.name}</span>
-        </div>
-      )}
-      {isFolderOpened && (
+      <div
+        className={
+          fileSystemStore.selectedId === folder.id
+            ? s["selected"]
+            : "file-browser-item"
+        }
+        onClick={() => handleSelectItem(folder)}
+      >
+        <img className="icon" src={folderIcon} alt="closed" />
+        {folder.files.size !== 0 && (
+          <button
+            className="icon-button"
+            onClick={(e) => {
+              e.stopPropagation();
+              folder.setIsOpened(!folder.isOpened);
+            }}
+          >
+            <img className="icon" src={arrowIcon} alt="arrow" />
+          </button>
+        )}
+        <span className="system-item-name">{folder.name}</span>
+      </div>
+      {folder.isOpened && (
         <ul>
-          {[...folder.getFilteredMap?.keys()].map((id) => (
-            <li key={id}>
-              {folder.files.get(id) instanceof Folder ? (
-                <FolderView folder={folder.files.get(id) as Folder} />
-              ) : (
-                <FileView
-                  file={folder.files.get(id) as FileClass}
-                  handleSelectItem={handleSelectItem}
-                />
-              )}
-            </li>
-          ))}
+          {[...folder.filteredChildren.keys()].map((id) => {
+            const item = folder.files.get(id);
+            if (item instanceof Folder) {
+              (item as Folder).setIsOpened(true);
+
+              return (
+                <li key={id}>
+                  <FolderView folder={item as Folder} />
+                </li>
+              );
+            } else {
+              return (
+                <li key={id}>
+                  <FileView
+                    file={item as FileClass}
+                    handleSelectItem={handleSelectItem}
+                  />
+                </li>
+              );
+            }
+          })}
         </ul>
       )}
     </>

@@ -13,19 +13,28 @@ export interface IFolder {
   name: string;
   files: ObservableMap<number, SystemItem>;
   parent: Folder | null;
+  isOpened: boolean
 }
 
 export class Folder extends SystemItem implements IFolder {
   files = observable.map<number, SystemItem>();
+  isOpened: boolean;
 
   constructor(name: string, parent: Folder | null) {
     super(name, parent);
+    this.isOpened = true;
     makeObservable(this, {
       files: observable,
+      isOpened: observable,
       add: action,
       delete: action,
-      getFilteredMap: computed,
+      setIsOpened: action,
+      filteredChildren: computed,
     });
+  }
+
+  setIsOpened (state: boolean) {
+    this.isOpened = state
   }
 
   add(item: SystemItem) {
@@ -37,30 +46,24 @@ export class Folder extends SystemItem implements IFolder {
     this.parent?.files.delete(this.id);
   }
 
-  get getFilteredMap(): ObservableMap<number, SystemItem> {
-    if (fileSystemStore.searchText !== "") {
-      return this.getFilteredMapAssist();
-    }
-    return this.files;
-  }
-
-  private getFilteredMapAssist(): ObservableMap<number, SystemItem> {
-    let filteredMap = new ObservableMap<number, SystemItem>();
-    if (this.name.includes(fileSystemStore.searchText)) {
-      filteredMap.set(this.id, this);
-    }
-    for (const [id, item] of this.files) {
-      if (item.name.includes(fileSystemStore.searchText)) {
-        filteredMap.set(id, item);
-      }
-      if (item instanceof Folder) {
-        const filteredNestedMap = item.getFilteredMap;
-        if (filteredNestedMap.size > 0) {
-          const folderCopy = { ...item, files: filteredNestedMap } as Folder;
-          filteredMap.set(id, folderCopy);
+  get filteredChildren(): Map<number, SystemItem> {
+    let filteredMap = new Map<number, SystemItem>();
+    if (fileSystemStore.searchText === "") {
+      return this.files;
+    } else {
+      this.setIsOpened(true);
+      for (const [id, item] of this.files) {
+        if (item.name.includes(fileSystemStore.searchText)) {
+          filteredMap.set(id, item);
+        }
+        if (item instanceof Folder) {
+          const filteredNestedMap = item.filteredChildren;
+          if (filteredNestedMap.size > 0) {
+            filteredMap.set(id, item);
+          }
         }
       }
+      return filteredMap;
     }
-    return filteredMap;
   }
 }

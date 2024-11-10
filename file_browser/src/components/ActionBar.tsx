@@ -14,25 +14,26 @@ import edit from "../assets/edit.png";
 import renameIcon from "../assets/rename.png";
 
 const ActionBar = observer(() => {
-
   enum DialogState {
-    None = "none",
-    Rename = "rename",
-    Edit = 'edit',
-    Add = 'add'
+    None,
+    Rename,
+    Edit,
+    Add,
   }
 
   const [dialogState, setDialogState] = useState(DialogState.None);
 
   const handleDelete = () => {
     fileSystemStore.selectedItem.delete();
-    fileSystemStore.setSelected(fileSystemStore.root)
+    fileSystemStore.setSelected(fileSystemStore.root);
   };
 
   const currentDialog = useMemo(() => {
     switch (dialogState) {
       case DialogState.Rename:
-        return <RenameDialog onClose={() => setDialogState(DialogState.None)} />;
+        return (
+          <RenameDialog onClose={() => setDialogState(DialogState.None)} />
+        );
       case DialogState.Edit:
         return <EditDialog onClose={() => setDialogState(DialogState.None)} />;
       case DialogState.Add:
@@ -40,8 +41,8 @@ const ActionBar = observer(() => {
       default:
         return null;
     }
-  }, [dialogState])
-  
+  }, [dialogState]);
+
   return (
     <div>
       <div className={s["action-bar"]}>
@@ -49,7 +50,8 @@ const ActionBar = observer(() => {
           <button
             className={s["action-bar-button"]}
             onClick={() => {
-              setDialogState(DialogState.Edit)}}
+              setDialogState(DialogState.Edit);
+            }}
           >
             <img src={edit} className="icon" alt="Edit" />
           </button>
@@ -58,7 +60,8 @@ const ActionBar = observer(() => {
             <button
               className={s["action-bar-button"]}
               onClick={() => {
-                setDialogState(DialogState.Add)}}
+                setDialogState(DialogState.Add);
+              }}
             >
               <img src={plus} className="icon" alt="Add" />
             </button>
@@ -70,7 +73,7 @@ const ActionBar = observer(() => {
         <button
           className={s["action-bar-button"]}
           onClick={() => {
-            setDialogState(DialogState.Rename)
+            setDialogState(DialogState.Rename);
           }}
         >
           <img src={renameIcon} className="icon" alt="Rename" />

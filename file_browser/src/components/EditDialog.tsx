@@ -4,12 +4,12 @@ import fileSystemStore from "../stores/FileSystemStore";
 import { FileClass } from "../classes/File";
 
 const EditDialog = observer(({onClose}: {onClose: (state: boolean) => void}) => {
-  const [editContent, setEditContent] = useState("");
+  const [editContentString, setEditContentString] = useState("");
 
-  const handleEditContent = () => {
-    (fileSystemStore.selectedItem as FileClass).setContent(editContent);
+  const editContent = () => {
+    (fileSystemStore.selectedItem as FileClass).setContent(editContentString);
     onClose(false);
-    setEditContent("");
+    setEditContentString("");
   };
   return (
     <dialog className="dialog" open>
@@ -18,14 +18,14 @@ const EditDialog = observer(({onClose}: {onClose: (state: boolean) => void}) => 
       <p>{(fileSystemStore.selectedItem as FileClass).content}</p>
       <div className="input-dialog-container">
         <input
-          onChange={(e) => setEditContent(e.target.value)}
+          onChange={(e) => setEditContentString(e.target.value)}
           placeholder="Enter here the new content"
           className="input-dialog"
         />
       </div>
       <div className="dialog-buttons">
-        <button onClick={handleEditContent} className="dialog-button">
-          Edit
+        <button onClick={editContent} className="dialog-button">
+          Save
         </button>
         <button onClick={() => onClose(false)} className="dialog-button">
           Close
