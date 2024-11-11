@@ -1,0 +1,13 @@
+.input-dialog-container {
+    display: flex;
+    margin: 15px;
+    justify-content: space-between;
+  }
+  
+  .input-dialog {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    font-family: $font;
+  }

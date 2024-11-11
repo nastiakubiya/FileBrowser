@@ -1,0 +1,22 @@
+:root {
+
+    // blues
+    --base-color1: 210;
+    --color1-light: hsla(var(--base-color1), 100%, 75%, 1);
+    --color1-normal: hsla(var(--base-color1), 100%, 50%, 100%);
+    --color1-darker: hsla(var(--base-color1), 100%, 35%, 100%);
+
+    // greys 
+    --base-color-grey: 230;
+    --color2-light: hsla(var(--base-color-grey), 0%, 75%, 0.5);
+    --color2-normal: hsla(var(--base-color-grey), 0%, 75%, 1);
+    --color2-darker: hsla(var(--base-color-grey), 0%, 35%, 100%);
+
+    // light blues
+    --base-color3: 200;
+    --color3-light: hsla(var(--base-color3), 50%, 75%, 100%);
+    --color3-normal: hsla(var(--base-color3), 50%, 50%, 100%);
+    --color3-darker: hsla(var(--base-color3), 50%, 35%, 100%);
+
+    --white-color: hsla(0, 100%, 100%, 1);
+}

@@ -5,7 +5,6 @@ import { useMemo } from "react";
 import fileSystemStore from "../stores/FileSystemStore";
 import { FileView } from "./FileView";
 import { FileClass } from "../classes/File";
-import s from "./FolderView.module.scss";
 
 // icons
 import openedIcon from "../assets/openedFolder.png";
@@ -56,8 +55,8 @@ const FolderView = observer(({ folder }: { folder: Folder }) => {
       <div
         className={
           fileSystemStore.selectedId === folder.id
-            ? s["selected"]
-            : "file-browser-item"
+            ? "selected-item-button"
+            : "file-browser-item-button"
         }
         onClick={() => handleSelectItem(folder)}
       >
@@ -76,7 +75,7 @@ const FolderView = observer(({ folder }: { folder: Folder }) => {
         <span className="system-item-name">{folder.name}</span>
       </div>
       {folder.isOpened && (
-        <ul>
+        <ul className="list-view">
           {[...folder.filteredChildren.keys()].map((id) => {
             const item = folder.files.get(id);
             if (item instanceof Folder) {

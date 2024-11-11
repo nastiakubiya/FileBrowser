@@ -2,7 +2,6 @@ import { observer } from "mobx-react-lite";
 import fileSystemStore from "../stores/FileSystemStore";
 import { FileClass } from "../classes/File";
 import { SystemItem } from "../classes/SystemItem";
-import s from "./FileView.module.scss";
 
 /// icons
 import fileIcon from "../assets/file.png";
@@ -20,8 +19,8 @@ export const FileView = observer(
       <div
         className={
           fileSystemStore.selectedId === file.id
-            ? s["selected"]
-            : "file-browser-item"
+            ? "selected-item-button"
+            : "file-browser-item-button"
         }
         onClick={() => handleSelectItem(file)}
       >
