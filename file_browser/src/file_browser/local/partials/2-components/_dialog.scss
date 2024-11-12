@@ -1,0 +1,29 @@
+.dialog {
+    border-radius: 5px;
+    border-color: lightgrey;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+  }
+
+  .dialog-layout {
+    padding: 20px;
+    width: auto;
+    height: auto;
+    max-width: 45%;
+  }
+  
+  .input-dialog-layout {
+    display: flex;
+    margin: 15px;
+    justify-content: space-between;
+  }
+
+  .dialog-btns-layout {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .dialog-btn-layout {
+    flex: 1;
+    margin: 15px;
+    height: 30px;
+  }

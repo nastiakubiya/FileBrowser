@@ -1,26 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import FileBrowser from "./components/FileBrowser";
+import SearchBar from "./components/SearchBar";
+
+// Icons made by Freepik, th studio, Gajah Mada, Kiranshastry from Flaticon (https://www.flaticon.com)
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  return <div className="app">
+    <h1>Welcome to the File Browser</h1>
+    <SearchBar />
+    <FileBrowser/>
+  </div>;
 }
 
 export default App;

@@ -1,0 +1,13 @@
+.action-bar {
+  background-color: var(--color1-normal);
+  align-content: end;
+  margin-bottom: 10px;
+}
+
+.action-bar-button {
+  background-color: transparent;
+  width: 100px;
+  margin: 10px;
+  cursor: pointer;
+  border: none;
+}
