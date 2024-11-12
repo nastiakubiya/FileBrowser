@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
-import fileSystemStore from "../stores/FileSystemStore";
-import { FileClass } from "../classes/File";
+import fileSystemStore from "../../stores/FileSystemStore";
+import { FileClass } from "../../classes/File";
 
 const EditDialog = observer(({onClose}: {onClose: () => void}) => {
   const [editContentString, setEditContentString] = useState("");

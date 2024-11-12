@@ -2,9 +2,9 @@ import { useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
 import fileSystemStore from "../stores/FileSystemStore";
 import { FileClass } from "../classes/File";
-import AddDialog from "./AddDialog";
-import RenameDialog from "./RenameDialog";
-import EditDialog from "./EditDialog";
+import AddDialog from "./Dialogs/AddDialog";
+import RenameDialog from "./Dialogs/RenameDialog";
+import EditDialog from "./Dialogs/EditDialog";
 import s from "./ActionBar.module.scss";
 
 // icons

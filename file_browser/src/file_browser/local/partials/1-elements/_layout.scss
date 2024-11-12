@@ -1,14 +1,3 @@
-.dialog-btns-layout {
-  display: flex;
-  justify-content: space-between;
-}
-
-.dialog-btn-layout {
-  flex: 1;
-  margin: 15px;
-  height: 30px;
-}
-
 .file-browser-item-layout {
   padding: 7px 10px;
   height: 25px;
@@ -21,27 +10,9 @@
   display: flex;
 }
 
-.file-browser-layout {
-  margin-left: 5px;
-  margin-right: 5px;
-}
-
 .icon-layout {
   width: 25px;
   height: auto;
-}
-
-.dialog-layout {
-  padding: 20px;
-  width: auto;
-  height: auto;
-  max-width: 45%;
-}
-
-.input-dialog-layout {
-  display: flex;
-  margin: 15px;
-  justify-content: space-between;
 }
 
 .system-item-name-layout {

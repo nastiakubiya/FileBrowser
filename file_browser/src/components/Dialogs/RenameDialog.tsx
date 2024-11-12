@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { observer } from "mobx-react-lite";
-import fileSystemStore from "../stores/FileSystemStore";
+import fileSystemStore from "../../stores/FileSystemStore";
 
 const RenameDialog = observer(
   ({ onClose }: { onClose: () => void }) => {
