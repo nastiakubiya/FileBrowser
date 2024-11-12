@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import fileSystemStore from "../stores/FileSystemStore";
 
 const RenameDialog = observer(
-  ({ onClose }: { onClose: (state: boolean) => void }) => {
+  ({ onClose }: { onClose: () => void }) => {
     const [renameString, setRenameString] = useState("");
     const [error, setError] = useState("");
 
@@ -12,20 +12,20 @@ const RenameDialog = observer(
         setError("You must enter a name");
       } else {
         fileSystemStore.selectedItem.setName(renameString);
-        onClose(false);
+        onClose();
         setRenameString("");
       }
     };
 
     return (
-      <dialog className="dialog" open>
+      <dialog className="dialog dialog-layout" open>
         <h2>Rename Item</h2>
         <p>
           This is the current name of the item:
           <br/>
           {fileSystemStore.selectedItem.name}
         </p>
-        <div className="input-dialog-container">
+        <div className="input-dialog-layout">
           <input
             placeholder="Enter new name here"
             onChange={(e) => {
@@ -38,11 +38,11 @@ const RenameDialog = observer(
           />
         </div>
         {error}
-        <div className="dialog-buttons">
-          <button onClick={rename} className="dialog-button">
+        <div className="dialog-btns-layout">
+          <button onClick={rename} className="dialog-button dialog-btn-layout">
             Save
           </button>
-          <button onClick={() => onClose(false)} className="dialog-button">
+          <button onClick={onClose} className="dialog-button dialog-btn-layout">
             Cancel
           </button>
         </div>

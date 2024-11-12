@@ -1,4 +1,3 @@
-import "./file_browser/file_browser.scss"
 import FileBrowser from "./components/FileBrowser";
 import SearchBar from "./components/SearchBar";
 

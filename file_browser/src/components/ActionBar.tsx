@@ -23,21 +23,25 @@ const ActionBar = observer(() => {
 
   const [dialogState, setDialogState] = useState(DialogState.None);
 
-  const handleDelete = () => {
+  const deleteItem = () => {
     fileSystemStore.selectedItem.delete();
     fileSystemStore.setSelected(fileSystemStore.root);
   };
+
+  const closeDialog = () => {
+    setDialogState(DialogState.None)
+  }
 
   const currentDialog = useMemo(() => {
     switch (dialogState) {
       case DialogState.Rename:
         return (
-          <RenameDialog onClose={() => setDialogState(DialogState.None)} />
+          <RenameDialog onClose={closeDialog} />
         );
       case DialogState.Edit:
-        return <EditDialog onClose={() => setDialogState(DialogState.None)} />;
+        return <EditDialog onClose={closeDialog} />;
       case DialogState.Add:
-        return <AddDialog onClose={() => setDialogState(DialogState.None)} />;
+        return <AddDialog onClose={closeDialog} />;
       default:
         return null;
     }
@@ -53,7 +57,7 @@ const ActionBar = observer(() => {
               setDialogState(DialogState.Edit);
             }}
           >
-            <img src={edit} className="icon" alt="Edit" />
+            <img src={edit} className="icon-layout" alt="Edit" />
           </button>
         ) : (
           <>
@@ -63,12 +67,12 @@ const ActionBar = observer(() => {
                 setDialogState(DialogState.Add);
               }}
             >
-              <img src={plus} className="icon" alt="Add" />
+              <img src={plus} className="icon-layout" alt="Add" />
             </button>
           </>
         )}
-        <button className={s["action-bar-button"]} onClick={handleDelete}>
-          <img src={deleteIcon} className="icon" alt="delete" />
+        <button className={s["action-bar-button"]} onClick={deleteItem}>
+          <img src={deleteIcon} className="icon-layout" alt="delete" />
         </button>
         <button
           className={s["action-bar-button"]}
@@ -76,7 +80,7 @@ const ActionBar = observer(() => {
             setDialogState(DialogState.Rename);
           }}
         >
-          <img src={renameIcon} className="icon" alt="Rename" />
+          <img src={renameIcon} className="icon-layout" alt="Rename" />
         </button>
       </div>
       {currentDialog}

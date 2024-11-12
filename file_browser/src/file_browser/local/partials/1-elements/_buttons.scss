@@ -1,59 +1,28 @@
-[class*=regular-button] {
-    color: var(--white-color);
+[class*=button] {
     background-color: var(--color1-normal);
-    font-family: $font;
     border: none;
-    border-radius: 5px;
-    flex: 1;
-    margin: 15px;
     cursor: pointer;
-    height: 30px;
     font-weight: bold;
-    &:hover {
-      background-color: var(--color1-dark);
-    }
 }
 
 .dialog-button {
   color: var(--white-color);
-  background-color: var(--color1-normal);
-  font-family: $font;
-  border: none;
   border-radius: 5px;
-  flex: 1;
-  margin: 15px;
-  cursor: pointer;
-  height: 30px;
-  font-weight: bold;
   &:hover {
     background-color: var(--color1-darker);
   }
 }
 
-.dialog-buttons {
-  display: flex;
-  justify-content: space-between;
-}
-
 .file-browser-item-button {
-  text-align: left;
-  padding: 7px 10px;
-  height: 25px;
-  cursor: pointer;
-  display: flex;
-  color: black;
   background-color: var(--color2-light);
+  color: black;
+  text-align: left;
   &:hover {
     background-color: var(--color2-normal);
   }
 }
 
 .selected-item-button {
-  background-color: var(--color1-normal);
   color: white;
   text-align: left;
-  padding: 7px 10px;
-  height: 25px;
-  cursor: pointer;
-  display: flex;
 }

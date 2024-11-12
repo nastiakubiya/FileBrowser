@@ -1,4 +1,3 @@
-import { SystemItem } from "../classes/SystemItem";
 import { Folder } from "../classes/Folder";
 import { observer } from "mobx-react-lite";
 import { useMemo } from "react";
@@ -46,21 +45,17 @@ const FolderView = observer(({ folder }: { folder: Folder }) => {
     }
   }, [folder.isOpened, fileSystemStore.selectedId, folder.id]);
 
-  const handleSelectItem = (item: SystemItem) => {
-    fileSystemStore.setSelected(item);
-  };
-
   return (
     <>
       <div
         className={
           fileSystemStore.selectedId === folder.id
-            ? "selected-item-button"
-            : "file-browser-item-button"
+            ? "selected-item-button selected-item-layout"
+            : "file-browser-item-button file-browser-item-layout"
         }
-        onClick={() => handleSelectItem(folder)}
+        onClick={() => fileSystemStore.setSelected(folder)}
       >
-        <img className="icon" src={folderIcon} alt="closed" />
+        <img className="icon-layout" src={folderIcon} alt="closed" />
         {folder.files.size !== 0 && (
           <button
             className="icon-button"
@@ -69,17 +64,16 @@ const FolderView = observer(({ folder }: { folder: Folder }) => {
               folder.setIsOpened(!folder.isOpened);
             }}
           >
-            <img className="icon" src={arrowIcon} alt="arrow" />
+            <img className="icon-layout" src={arrowIcon} alt="arrow" />
           </button>
         )}
-        <span className="system-item-name">{folder.name}</span>
+        <span className="system-item-name-layout">{folder.name}</span>
       </div>
       {folder.isOpened && (
         <ul className="list-view">
           {[...folder.filteredChildren.keys()].map((id) => {
             const item = folder.files.get(id);
             if (item instanceof Folder) {
-              (item as Folder).setIsOpened(true);
 
               return (
                 <li key={id}>
@@ -91,7 +85,6 @@ const FolderView = observer(({ folder }: { folder: Folder }) => {
                 <li key={id}>
                   <FileView
                     file={item as FileClass}
-                    handleSelectItem={handleSelectItem}
                   />
                 </li>
               );

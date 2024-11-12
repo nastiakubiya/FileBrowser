@@ -13,16 +13,20 @@ export interface IFolder {
   name: string;
   files: ObservableMap<number, SystemItem>;
   parent: Folder | null;
-  isOpened: boolean
+  isOpened: boolean;
 }
 
 export class Folder extends SystemItem implements IFolder {
   files = observable.map<number, SystemItem>();
-  isOpened: boolean;
+  isOpened: boolean = false;
 
-  constructor(name: string, parent: Folder | null) {
+  constructor(name: string, parent: Folder | null, isOpened?: boolean) {
     super(name, parent);
-    this.isOpened = true;
+    if (isOpened) {
+      this.isOpened = isOpened;
+    } else {
+      this.isOpened = false;
+    }
     makeObservable(this, {
       files: observable,
       isOpened: observable,
@@ -33,8 +37,8 @@ export class Folder extends SystemItem implements IFolder {
     });
   }
 
-  setIsOpened (state: boolean) {
-    this.isOpened = state
+  setIsOpened(state: boolean) {
+    this.isOpened = state;
   }
 
   add(item: SystemItem) {

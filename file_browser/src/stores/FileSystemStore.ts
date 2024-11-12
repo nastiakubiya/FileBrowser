@@ -3,7 +3,7 @@ import { FileClass } from "../classes/File";
 import { FileSystem } from "../classes/FileSystem";
 
 function createInitialFileSystem() {
-  const rootFolder = new Folder("Root", null); 
+  const rootFolder = new Folder("Root", null, true); 
   const file1 = new FileClass("abc", rootFolder, "texty text"); 
   const file2 = new FileClass("edf", rootFolder, "texty text"); 
   const file3 = new FileClass("aaaa", rootFolder, "texty text"); 
@@ -24,7 +24,7 @@ function createInitialFileSystem() {
   folder3.add(file7)
   folder3.add(file6)
 
-  return new FileSystem(rootFolder, rootFolder);
+  return new FileSystem(rootFolder, rootFolder,);
 }
 
 const fileSystemStore = createInitialFileSystem();

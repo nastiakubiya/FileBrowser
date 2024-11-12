@@ -6,7 +6,7 @@ import { observer } from "mobx-react-lite";
 import fileSystemStore from "../stores/FileSystemStore";
 
 const AddDialog = observer(
-  ({ onClose }: { onClose: (state: boolean) => void }) => {
+  ({ onClose }: { onClose: () => void }) => {
     enum Options {
       Folder,
       File,
@@ -33,7 +33,7 @@ const AddDialog = observer(
         if (name !== "") {
           item = new Folder(name, fileSystemStore.selectedItem as Folder);
           addToFolder(item);
-          onClose(false);
+          onClose();
         } else setError("You must choose a name for the folder");
       }
       //// file
@@ -45,13 +45,13 @@ const AddDialog = observer(
             content
           );
           addToFolder(item);
-          onClose(false);
+          onClose();
         } else setError("You must choose name for the file");
       }
     };
 
     return (
-      <dialog className="dialog" open>
+      <dialog className="dialog dialog-layout" open>
         {Object.values(Options)
           .filter((value) => typeof value === "string")
           .map((opt) => (
@@ -68,7 +68,7 @@ const AddDialog = observer(
           ))}
         <br />
         {selected === Options[0] && (
-          <div className="input-dialog-container">
+          <div className="input-dialog-layout">
             <input
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter the name of the folder"
@@ -78,14 +78,14 @@ const AddDialog = observer(
         )}
         {selected === Options[1] && (
           <>
-            <div className="input-dialog-container">
+            <div className="input-dialog-layout">
               <input
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter the name of the file"
                 className="input-dialog"
               />
             </div>
-            <div className="input-dialog-container">
+            <div className="input-dialog-layout">
               <textarea
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Enter the content of the file"
@@ -95,11 +95,11 @@ const AddDialog = observer(
           </>
         )}
         {error}
-        <div className="dialog-buttons">
-          <button onClick={createNewItem} className="dialog-button">
+        <div className="dialog-btns-layout">
+          <button onClick={createNewItem} className="dialog-button dialog-btn-layout">
             Save
           </button>
-          <button onClick={() => onClose(false)} className="dialog-button">
+          <button onClick={onClose} className="dialog-button dialog-btn-layout">
             Cancel
           </button>
         </div>
